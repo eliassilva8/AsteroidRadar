@@ -7,11 +7,16 @@
         <variable
             name="asteroid"
             type="com.udacity.asteroidradar.Asteroid" />
+
+        <variable
+            name="asteroidCallback"
+            type="com.udacity.asteroidradar.main.AsteroidAdapter.OnClickListener" />
     </data>
 
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{() -> asteroidCallback.onClick(asteroid)}">
 
         <TextView
             android:id="@+id/nameTV"
