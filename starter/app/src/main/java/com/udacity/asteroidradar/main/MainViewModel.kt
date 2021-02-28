@@ -3,8 +3,10 @@ package com.udacity.asteroidradar.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.repository.AsteroidsRepository
+import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
     private val repository = AsteroidsRepository()
@@ -18,10 +20,16 @@ class MainViewModel : ViewModel() {
         get() = _clickedAsteroid
 
     init {
-        _asteroids.value = repository.dummyData()
+        getAsteroids()
     }
 
     fun displayAsteroidDetails(asteroid: Asteroid?) {
         _clickedAsteroid.value = asteroid
+    }
+
+    fun getAsteroids() {
+        viewModelScope.launch {
+            _asteroids.value = repository.getAsteroids()
+        }
     }
 }
