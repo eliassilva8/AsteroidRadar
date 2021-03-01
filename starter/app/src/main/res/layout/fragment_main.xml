@@ -3,10 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.udacity.asteroidradar.main.MainViewModel" />
 
+        <variable
+            name="pictureOfDay"
+            type="com.udacity.asteroidradar.PictureOfDay" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -28,6 +32,7 @@
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
+                app:pictureOfDay="@{viewModel.pictureOfDay}"
                 app:srcCompat="@drawable/placeholder_picture_of_day"/>
 
             <TextView

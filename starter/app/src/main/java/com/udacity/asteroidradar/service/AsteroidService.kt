@@ -13,8 +13,6 @@ import retrofit2.http.Query
 interface IAsteroidService {
     @GET("neo/rest/v1/feed")
     suspend fun getAsteroids(@Query("api_key") apiKey: String): String
-
-
 }
 
 
@@ -24,5 +22,5 @@ object AsteroidService {
         .baseUrl(Constants.BASE_URL)
         .build()
 
-    val neows: IAsteroidService by lazy { retrofit.create(IAsteroidService::class.java) }
+    val neo: IAsteroidService by lazy { retrofit.create(IAsteroidService::class.java) }
 }
