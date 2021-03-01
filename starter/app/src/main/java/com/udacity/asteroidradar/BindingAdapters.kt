@@ -7,10 +7,12 @@ import com.squareup.picasso.Picasso
 
 @BindingAdapter("pictureOfDay")
 fun bindPictureOfDay(imageView: ImageView, pictureOfDay: PictureOfDay?) {
-    if (pictureOfDay != null) {
+    if (pictureOfDay != null && pictureOfDay.mediaType.equals("image")) {
         Picasso.get().load(pictureOfDay.url).into(imageView)
+        imageView.contentDescription = pictureOfDay.title
     } else {
         imageView.setImageResource(R.drawable.placeholder_picture_of_day)
+        imageView.contentDescription = imageView.context.getString(R.string.picture_of_day_placeholder)
     }
 }
 
