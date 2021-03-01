@@ -14,10 +14,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val database = getDatabase(application)
     private val repository = AsteroidsRepository(database)
 
-    /* private val _asteroids = MutableLiveData<List<Asteroid>>()
-     val asteroids: LiveData<List<Asteroid>>
-         get() = _asteroids*/
-
     private val _clickedAsteroid = MutableLiveData<Asteroid?>()
     val clickedAsteroid: MutableLiveData<Asteroid?>
         get() = _clickedAsteroid
@@ -46,12 +42,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun refreshAsteroids() {
         viewModelScope.launch {
             repository.refreshAsteroids()
-        }
-    }
-
-    fun deleteAll() {
-        viewModelScope.launch {
-            repository.deleteAll()
         }
     }
 }

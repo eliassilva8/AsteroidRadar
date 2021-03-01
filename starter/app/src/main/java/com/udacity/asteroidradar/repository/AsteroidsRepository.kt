@@ -44,12 +44,6 @@ class AsteroidsRepository(private val database: AsteroidsDatabase) {
         return null
     }
 
-    suspend fun deleteAll() {
-        withContext(Dispatchers.IO) {
-            database.asteroidDao.deleteAll()
-        }
-    }
-
     val asteroids = Transformations.map(database.asteroidDao.getAsteroids()) {
         it.asDomainModel()
     }
