@@ -25,8 +25,10 @@ class MainFragment : Fragment() {
             viewModel.displayAsteroidDetails(it)
         })
 
-        viewModel.asteroids.observe(viewLifecycleOwner) {
-            adapter.asteroids = it
+        viewModel.asteroids.observe(viewLifecycleOwner) { asteroids ->
+            asteroids?.apply {
+                adapter.asteroids = asteroids
+            }
         }
 
         binding.asteroidRecycler.adapter = adapter

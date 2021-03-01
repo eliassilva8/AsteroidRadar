@@ -1,20 +1,22 @@
 package com.udacity.asteroidradar.main
 
-import androidx.lifecycle.LiveData
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.udacity.asteroidradar.Asteroid
 import com.udacity.asteroidradar.PictureOfDay
+import com.udacity.asteroidradar.database.getDatabase
 import com.udacity.asteroidradar.repository.AsteroidsRepository
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
-    private val repository = AsteroidsRepository()
+class MainViewModel(application: Application) : AndroidViewModel(application) {
+    private val database = getDatabase(application)
+    private val repository = AsteroidsRepository(database)
 
-    private val _asteroids = MutableLiveData<List<Asteroid>>()
-    val asteroids: LiveData<List<Asteroid>>
-        get() = _asteroids
+    /* private val _asteroids = MutableLiveData<List<Asteroid>>()
+     val asteroids: LiveData<List<Asteroid>>
+         get() = _asteroids*/
 
     private val _clickedAsteroid = MutableLiveData<Asteroid?>()
     val clickedAsteroid: MutableLiveData<Asteroid?>
@@ -24,8 +26,10 @@ class MainViewModel : ViewModel() {
     val pictureOfDay: MutableLiveData<PictureOfDay?>
         get() = _pictureOfDay
 
+    val asteroids = repository.asteroids
+
     init {
-        getAsteroids()
+        refreshAsteroids()
         getPictureOfDay()
     }
 
@@ -33,15 +37,21 @@ class MainViewModel : ViewModel() {
         _clickedAsteroid.value = asteroid
     }
 
-    fun getAsteroids() {
-        viewModelScope.launch {
-            _asteroids.value = repository.getAsteroids()
-        }
-    }
-
     fun getPictureOfDay() {
         viewModelScope.launch {
             _pictureOfDay.value = repository.getPictureOfDay()
+        }
+    }
+
+    fun refreshAsteroids() {
+        viewModelScope.launch {
+            repository.refreshAsteroids()
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            repository.deleteAll()
         }
     }
 }
