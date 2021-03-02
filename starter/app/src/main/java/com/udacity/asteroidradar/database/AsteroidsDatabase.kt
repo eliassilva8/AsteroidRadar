@@ -14,14 +14,14 @@ abstract class AsteroidsDatabase : RoomDatabase() {
 
 @Dao
 interface AsteroidDao {
-    @Query("SELECT * FROM databaseasteroid ORDER BY closeApproachDate DESC")
+    @Query("SELECT * FROM databaseasteroid ORDER BY closeApproachDate ASC")
     fun getAsteroids(): LiveData<List<DatabaseAsteroid>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg asteroids: DatabaseAsteroid)
 
-    @Query("DELETE FROM databaseasteroid")
-    fun deleteAll()
+    @Delete
+    fun deletePreviousDayAsteroids(vararg asteroids: DatabaseAsteroid)
 }
 
 private lateinit var INSTANCE: AsteroidsDatabase
